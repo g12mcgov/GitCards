@@ -106,11 +106,13 @@ $(document).ready(function() {
 			else {
 				console.log("Username :", resUser.name);
 
-				//userRepositories(user);
+				var repos = userRepositories(user);
+
+				console.log(repos);
 
 				userInfo["username"] = username;
 				userInfo["name"] = resUser.name;
-				//userInfo["repos"] = resUser.repositories;
+				userInfo["repos"] = resUser.repositories;
 			}
 		});
 		
@@ -121,13 +123,16 @@ $(document).ready(function() {
  	* Get repositories related to a user.
  	*/
  	var userRepositories = function(userObject) {
- 		var repos = new Gh3.Repositories(userObject);
+  		var repos = new Gh3.Repositories(userObject);
+  		
+  		var store = [];
 
- 		repos.fetch(function() {
- 			console.log("Repositories", repos);
- 		}, function(){},{page:1, per_page:500, direction : "desc"});
-
- 	};
+  		repos.fetch({page:1, per_page:500, direction : "desc"}, "next", function(err, res) {
+      		for(var i = 0; i < repos.repositories.length; i++) {
+      			store.push(repos.repositories.name[i]);
+      		}
+  		});
+	};
 
  	/*
  	* Takes in a userInfo dict and a card size, and creates it in the DOM
