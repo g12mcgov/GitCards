@@ -41,7 +41,7 @@
 
 
 
-$("head").append('<script type="text/javascript" src="config.js"></script>');
+//$("head").append('<script type="text/javascript" src="config.js"></script>');
 
 $(document).ready(function() {
 
